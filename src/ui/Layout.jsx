@@ -14,6 +14,14 @@ const Main = styled.main`
     background-color: var(--color-grey-50);
 
     padding: 3rem 3.5rem 5rem;
+    overflow-y: auto;
+`;
+const Container = styled.div`
+    max-width: 100rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
 `;
 function Layout() {
     return (
@@ -21,7 +29,9 @@ function Layout() {
             <Header />
             <Sidebar />
             <Main>
-                <Outlet />
+                <Container>
+                    <Outlet />
+                </Container>
             </Main>
         </StyledLayout>
     );
