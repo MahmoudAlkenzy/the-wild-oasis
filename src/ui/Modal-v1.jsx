@@ -2,15 +2,6 @@ import styled from 'styled-components';
 import CreateCabinForm from '../features/cabins/CreateCabinForm';
 import { HiXMark } from 'react-icons/hi2';
 import { createPortal } from 'react-dom';
-import {
-    cloneElement,
-    createContext,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
-import { useOutSideClick } from '../hooks/useOutSideClick';
 
 const StyledModal = styled.div`
     position: fixed;
@@ -22,8 +13,6 @@ const StyledModal = styled.div`
     box-shadow: var(--shadow-lg);
     padding: 3.2rem 4rem;
     transition: all 0.5s;
-    max-height: 90dvh;
-    overflow-y: auto;
 `;
 
 const Overlay = styled.div`
@@ -63,47 +52,19 @@ const Button = styled.button`
     }
 `;
 /* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
-const ModalContext = createContext();
 
-function Modal({ children }) {
-    const [openName, setOpenName] = useState('');
-
-    const close = () => setOpenName('');
-    const open = setOpenName;
-    return (
-        <ModalContext.Provider
-            value={{
-                openName,
-                open,
-                close,
-            }}
-        >
-            {children}
-        </ModalContext.Provider>
-    );
-}
-
-function Open({ children, opens: opensWindowName }) {
-    const { open } = useContext(ModalContext);
-    return cloneElement(children, { onClick: () => open(opensWindowName) });
-}
-function Window({ children, name }) {
-    const { openName, close } = useContext(ModalContext);
-    const { ref } = useOutSideClick(close);
-    if (openName !== name) return null;
+function Modal({ children, isClose }) {
     return createPortal(
         <Overlay>
-            <StyledModal ref={ref}>
-                <Button onClick={close}>
+            <StyledModal>
+                <Button onClick={isClose}>
                     <HiXMark />
                 </Button>
-                {cloneElement(children, { isCloseModal: close })}
+                {children}
             </StyledModal>
         </Overlay>,
         document.body
     );
 }
-Modal.Open = Open;
-Modal.Window = Window;
 
 export default Modal;

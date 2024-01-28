@@ -11,7 +11,7 @@ import { useCreateCabin } from './useCreateCabin';
 import { useEditCabine } from './useEditCabine';
 /* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, isCloseModal }) {
     const { createCabin, isCreating } = useCreateCabin();
     const { editCabin, isEditing } = useEditCabine();
     const { id: editId, ...editValues } = cabinToEdit;
@@ -28,7 +28,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         const image =
             typeof data.image === 'string' ? data.image : data.image[0];
         console.log({ ...data, image });
-        if (isEditSession)
+        if (isEditSession) {
             editCabin(
                 { newCabinData: { ...data, image }, id: editId },
                 {
@@ -37,7 +37,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
                     },
                 }
             );
-        else
+            isCloseModal?.();
+        } else {
             createCabin(
                 { ...data, image },
                 {
@@ -46,6 +47,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
                     },
                 }
             );
+            isCloseModal?.();
+        }
 
         // console.log({ ...data, image: data.image[0] });
     }
@@ -53,7 +56,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         // console.log(err);
     }
     return (
-        <Form onSubmit={handleSubmit(onSubmit, onError)}>
+        <Form
+            onSubmit={handleSubmit(onSubmit, onError)}
+            type={isCloseModal ? 'modal' : 'regular'}
+        >
             <FormRow label="Cabin name" error={errors?.name?.message}>
                 <Input
                     type="text"
@@ -143,7 +149,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
             <FormRow>
                 {/* type is an HTML attribute! */}
-                <Button variation="secondary" type="reset">
+                <Button
+                    variation="secondary"
+                    type="reset"
+                    onClick={() => isCloseModal?.()}
+                >
                     Cancel
                 </Button>
                 <Button>{editId ? 'Update cabin' : 'Create new cabin'}</Button>
