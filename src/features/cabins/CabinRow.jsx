@@ -75,7 +75,13 @@ function CabinRow({ cabin }) {
             <Cabin>{name}</Cabin>
             <div>Fits up {maxCapacity}</div>
             <Price>{formatCurrency(regularPrice)}</Price>
-            <Discount>{formatCurrency(discount)}</Discount>
+            <Discount>
+                {regularPrice < 1 ? (
+                    formatCurrency(discount)
+                ) : (
+                    <span>&mdash;</span>
+                )}
+            </Discount>
             <div>
                 <Modal>
                     <Menus.Menu>
