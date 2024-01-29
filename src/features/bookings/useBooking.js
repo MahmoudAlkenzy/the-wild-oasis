@@ -1,31 +1,18 @@
+import { useParams } from 'react-router-dom';
+import { getBooking } from '../../services/apiBookings';
+import { getCabins } from '../../services/apiCabins';
 import { useQuery } from '@tanstack/react-query';
-import { getBookings } from '../../services/apiBookings';
-import { useSearchParams } from 'react-router-dom';
-import SortBy from '../../ui/SortBy';
 
-export function useBookings() {
-    const [searchParams] = useSearchParams();
-
-    // FILTER
-    const filterValue = searchParams.get('status');
-    const filter =
-        !filterValue || filterValue === 'all'
-            ? null
-            : { field: 'status', value: filterValue };
-    //Sorting
-    const sortValue = searchParams.get('sortBy') || 'startDate-desc';
-    //pagination
-    const page = Number(searchParams.get('page')) || 1;
-
-    const [field, direction] = sortValue.split('-');
-    const sortBy = { field, direction };
+export function useBooking() {
+    const { bookingId } = useParams();
     const {
         isLoading,
-        data: { data: bookings, count } = {},
+        data: booking,
         error,
     } = useQuery({
-        queryKey: ['bookings', filter, sortBy, page],
-        queryFn: () => getBookings({ filter, sortBy, page }),
+        queryKey: ['cabins'],
+        queryFn: () => getBooking(bookingId),
+        retry: false,
     });
-    return { isLoading, bookings, error, count };
+    return { isLoading, booking, error };
 }

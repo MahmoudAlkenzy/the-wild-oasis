@@ -60,6 +60,7 @@ const PaginationButton = styled.button`
 `;
 /* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
 function Pagination({ count }) {
+    console.log(count);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const currentPage = Number(searchParams.get('page')) || 1;
