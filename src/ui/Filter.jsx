@@ -34,21 +34,36 @@ const FilterButton = styled.button`
         color: var(--color-brand-50);
     }
 `;
-function Filter() {
+/* eslint-disable react/prop-types */ // TODO: upgrade to latest eslint tooling
+
+function Filter({ FilterValue, options }) {
     const [searchParams, setSearchParams] = useSearchParams();
     function clickHandler(value) {
-        searchParams.set('discount', value);
+        searchParams.set(FilterValue, value);
         setSearchParams(searchParams);
     }
     return (
         <StyledFilter>
-            <FilterButton onClick={() => clickHandler('all')}>All</FilterButton>
-            <FilterButton onClick={() => clickHandler('no-discount')}>
-                No discount
-            </FilterButton>
-            <FilterButton onClick={() => clickHandler('with-discount')}>
-                With discount
-            </FilterButton>
+            {options.map((option, idx) => {
+                return (
+                    <FilterButton
+                        key={option.value}
+                        onClick={() => clickHandler(option.value)}
+                        active={
+                            option.value === searchParams.get(FilterValue)
+                                ? ' '
+                                : null
+                        }
+                        disabled={
+                            option.value === searchParams.get(FilterValue)
+                                ? ' '
+                                : null
+                        }
+                    >
+                        {option.label}
+                    </FilterButton>
+                );
+            })}
         </StyledFilter>
     );
 }
