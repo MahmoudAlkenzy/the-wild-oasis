@@ -42,6 +42,7 @@ function Filter({ FilterValue, options }) {
         searchParams.set(FilterValue, value);
         setSearchParams(searchParams);
     }
+    if (searchParams.get('page')) searchParams.set('page', 1);
     return (
         <StyledFilter>
             {options.map((option, idx) => {
