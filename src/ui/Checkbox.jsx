@@ -34,7 +34,6 @@ function Checkbox({
     children,
     value,
 }) {
-    console.log(value);
     return (
         <StyledCheckbox>
             <input
