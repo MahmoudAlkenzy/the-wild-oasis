@@ -50,11 +50,8 @@ export const GlobalStyle = createGlobalStyle`
 
   /* Grey */
   &.light-mode{
-
-
- 
   --color-grey-0: #fff;
-  --color-grey-50: #f9fafb;
+  --color-grey-50: #f9fafb; 
   --color-grey-100: #f3f4f6;
   --color-grey-200: #e5e7eb;
   --color-grey-300: #d1d5db;
