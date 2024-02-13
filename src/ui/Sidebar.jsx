@@ -17,7 +17,7 @@ function Sidebar() {
         <Aside>
             <Logo />
             <MainNav />
-            <Uploader />
+            {/* <Uploader /> */}
         </Aside>
     );
 }
