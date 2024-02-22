@@ -12,5 +12,6 @@ export function useSignUp() {
             );
         },
     });
+    
     return { signUp, isLoading };
 }

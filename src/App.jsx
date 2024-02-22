@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
@@ -32,7 +32,7 @@ function App() {
             <QueryClientProvider client={queryClient}>
                 <ReactQueryDevtools initialIsOpen={false} />
                 <GlobalStyle />
-                <BrowserRouter>
+                <HashRouter>
                     <Routes>
                         <Route
                             element={
@@ -63,7 +63,7 @@ function App() {
                         <Route path="login" element={<Login />} />
                         <Route path="*" element={<PageNotFound />} />
                     </Routes>
-                </BrowserRouter>
+                </HashRouter>
                 <Toaster
                     position="top-center"
                     gutter={12}
